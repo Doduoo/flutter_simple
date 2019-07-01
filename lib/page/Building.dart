@@ -31,10 +31,12 @@ class _BuildingPageState extends State<BuildingPage> {
                           color: Colors.white,
                           fontSize: 16.0,
                         )),
-                    background: Image.asset(
-                      buildingInfo.image,
-                      fit: BoxFit.fill,
-                    )),
+                    background: Hero(
+                        tag: buildingInfo.name,
+                        child: Image.asset(
+                          buildingInfo.image,
+                          fit: BoxFit.fill,
+                        ))),
               ),
             ];
           },
