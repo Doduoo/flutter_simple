@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_simple/page/Building.dart';
 
 class HomePage extends StatefulWidget {
@@ -36,11 +37,34 @@ class _HomePageState extends State<HomePage> {
 2019年5月10日，法国国民议会开始审议巴黎圣母院重建法案，各界承诺为重建巴黎圣母院捐款的金额已近10亿欧元。"""),
   ];
 
+  static const platform = const MethodChannel("com.flutter.simple/platform");
+  var title = "Flutter Title";
+
+  Future<String> getPlatform() async {
+    var platformName = "Unknown";
+    try {
+      platformName = await platform.invokeMethod("getPlatform");
+    } on PlatformException catch (e) {
+      print(e.toString());
+    }
+    return platformName;
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    getPlatform().then((name){
+      setState(() {
+        title = name;
+      });
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text("Buildings"),
+          title: Text(title),
           centerTitle: true,
         ),
         body: ListView.builder(
